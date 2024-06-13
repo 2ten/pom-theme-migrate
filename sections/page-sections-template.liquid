@@ -7,13 +7,13 @@
 
         {%- if section.settings.page_title_enable -%}
           <header class="section-header">
-            <h1 class="section-header__title">{{ page.title }}</h1>
+            <h2 class="section-header__title">{{ page.title }}</h2>
           </header>
         {%- endif -%}
 
         {%- if section.settings.page_content_enable -%}
           <div class="rte text-spacing">
-            {{ page.content }}
+            {{ page.content |replace:"<h1","<h2"| replace:"/h1>","/h2>"}}
           </div>
         {%- endif -%}
 
@@ -359,7 +359,7 @@
             "label": "Image width",
             "default": 500,
             "min": 100,
-            "max": 500,
+            "max": 800,
             "step": 10,
             "unit": "px"
           },
@@ -500,18 +500,41 @@
             "default": "#f4f4f4"
           },
           {
+            "type": "color",
+            "id": "color_text",
+            "label": "Text color",
+            "info": "Used for desktop text color",
+            "default": "#1c1d1d"
+          },
+          {
             "type": "select",
-            "id": "layout",
-            "label": "Layout",
-            "default": "left",
+            "id": "text_align",
+            "label": "Text alignment",
+            "default": "vertical-center horizontal-center",
             "options": [
               {
-                "value": "left",
-                "label": "Text on left"
+                "value": "vertical-center horizontal-left",
+                "label": "Center left"
               },
               {
-                "value": "right",
-                "label": "Text on right"
+                "value": "vertical-center horizontal-center",
+                "label": "Center"
+              },
+              {
+                "value": "vertical-center horizontal-right",
+                "label": "Center right"
+              },
+              {
+                "value": "vertical-bottom horizontal-left",
+                "label": "Bottom left"
+              },
+              {
+                "value": "vertical-bottom horizontal-center",
+                "label": "Bottom center"
+              },
+              {
+                "value": "vertical-bottom horizontal-right",
+                "label": "Bottom right"
               }
             ]
           },

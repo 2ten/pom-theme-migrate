@@ -4,10 +4,14 @@
   {%- if section.settings.title != blank -%}
     <div class="section-header">
       <h2 class="section-header__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="rte-setting text-spacing text-center">{{ section.settings.text }}</div>
+      {%- endif -%}
     </div>
   {%- endif -%}
 
-  <div class="grid grid--uniform{% unless section.settings.enable_gutter %} grid--no-gutters{% endunless %}">
+  <div class="grid-overflow-wrapper">
+    <div class="grid grid--uniform{% unless section.settings.enable_gutter %} grid--no-gutters{% endunless %}" data-aos="overflow__animation">
     {%- liquid
       assign isEmpty = true
       if section.blocks.size > 0
@@ -53,6 +57,7 @@
       </div>
     {%- endif -%}
 
+    </div>
   </div>
 </div>
 
@@ -69,6 +74,12 @@
         "id": "title",
         "label": "Heading",
         "default": "Collection list"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Use this section to explain a set of product features, to link to a series of pages, or to answer common questions about your products. Add images for emphasis.</p>"
       },
       {
         "type": "checkbox",
@@ -131,6 +142,11 @@
             "id": "collection",
             "type": "collection",
             "label": "Collection"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
           },
           {
             "type": "text",

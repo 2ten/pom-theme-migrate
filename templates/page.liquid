@@ -10,7 +10,7 @@
       </header>
 
       <div class="rte rte--nomargin">
-        {{ page.content }}
+        {{ page.content |replace:"<h1","<h2" | replace:"/h1>","/h2>" }}
       </div>
 
     </div>

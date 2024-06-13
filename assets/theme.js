@@ -1234,6 +1234,19 @@ lazySizesConfig.expFactor = 4;
         return false;
       }
     });
+
+    // 2ten add upsell item
+    $('body').on('click', '.js-add-item', function(evt) {
+      evt.preventDefault();
+      var variantId = $(this).attr('data-variant-id');
+      var data = 'id='+ variantId + '&quantity=1';
+      $(this).addClass('btn--loading');
+      $('#CartContainer').addClass('is-loading');
+      theme.cart.addItemFromForm(data).then(function(){
+        $('body').trigger('added.ajaxProduct');
+      });
+    });
+
   });
   
   theme.QtySelector = (function() {
@@ -3785,6 +3798,38 @@ lazySizesConfig.expFactor = 4;
           // Add product id to recently viewed array
           this.addIdToRecentlyViewed();
         }
+
+
+        // 2ten custom swatch functionality
+        // todo enclose in conditional code if this type of swatch exists
+        $('.group-select--swatch').on('click',function(e){
+          e.preventDefault();
+          $('.group-select--swatch').removeClass('group-select--active');
+          $(this).addClass('group-select--active');
+          var group_color = $(this).attr('data-group-select');
+          var group_class = '.variant-group--' + group_color;
+          // hide all
+          $('.variant-group--item').removeClass('variant-group--active');
+          // show active
+          $(group_class).addClass('variant-group--active');
+          // get currently active color
+          var color_current = $("input[name='Color']:checked").val().toLowerCase().split(' x ');
+          // trigger click on matching color color-swatch--black-coral
+          var color_new = '.color-swatch--' + group_color + '-x-' + color_current[1];
+          $(color_new).trigger('click');
+        })
+
+        // find currently selected swatch and show that group
+        const colorInput = document.querySelector('input[name="Color"]');
+        
+        if (colorInput) {
+          // Run your code here if the input element exists
+          console.log('Input element with name "Color" found on the page.');
+                  var group_current = $("input[name='Color']:checked").val().toLowerCase().split(' x ');
+                  var group_current_class = '.variant-group--' + group_current[0];
+                  $(group_current_class).addClass('variant-group--active');
+        }
+
       },
   
       formSetup: function() {
@@ -5302,19 +5347,25 @@ lazySizesConfig.expFactor = 4;
         }
   
         $(selectors.colorSwatch).on({
-          mouseenter: function (evt) {
+          click: function (evt) {
+
+            evt.preventDefault(); // 2ten
+
             $el = $(evt.currentTarget);
+            $el.closest('.grid__item').find('.grid-product__color-image').removeClass('is-active'); // 2ten
+
             var id = $el.data('variant-id');
             var image = $el.data('variant-image');
             $('.grid-product__color-image--' + id)
               .css('background-image', 'url(' + image + ')')
               .addClass('is-active');
-          },
-          mouseleave: function (evt) {
-            $el = $(evt.currentTarget);
-            var id = $el.data('variant-id');
-            $('.grid-product__color-image--' + id).removeClass('is-active');
           }
+          // ,
+          // mouseleave: function (evt) {
+          //   $el = $(evt.currentTarget);
+          //   var id = $el.data('variant-id');
+          //   $('.grid-product__color-image--' + id).removeClass('is-active');
+          // }
         });
       },
   
@@ -6707,5 +6758,42 @@ lazySizesConfig.expFactor = 4;
     sections.register('footer-section', theme.FooterSection);
 
     theme.initSecondary();
+
+
+    // 2ten custom megamenu
+
+    $('.site-navigation > li').each(function( index ) {
+      var count = index + 1;
+      var menuClass = '.megamenu-' + count;
+
+      if($(menuClass).length){
+
+        var mega = $(menuClass).html();
+
+        // find the element to append to
+        var mega_parent_class = '.site-navigation > li:nth-child(' + count + ')';
+        var mega_parent = $(mega_parent_class);
+
+        // add classes
+        mega_parent.addClass('site-nav--has-dropdown site-nav--is-megamenu');
+        mega_parent.attr("aria-haspopup","true");
+
+        // append menu to list element
+        mega_parent.append(mega);
+      }
+    });
+
+    /*
+    $('.collection__color-switch').on('click',function(e){
+      e.preventDefault();
+      var color = $(this).attr('data-color-switch');
+      console.log(color);
+      var color_swatch_class = '.color-swatch--' + color;
+      $(color_swatch_class).trigger('click');
+
+    })*/
+
+
+
   });
 })(theme.jQuery);

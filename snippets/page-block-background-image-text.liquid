@@ -64,11 +64,9 @@
     {%- endif -%}
   </div>
   {%- if block.settings.subtitle != blank or block.settings.title != blank or block.settings.text != blank -%}
-    <div class="background-media-text__inner">
-      <div class="background-media-text__aligner background-media-text--{{ block.settings.layout }}">
-        <div class="animation-cropper">
-          <div class="animation-contents">
-            <div class="background-media-text__text">
+    <div class="background-media-text__inner page-width">
+      <div class="background-media-text__aligner {{ block.settings.text_align }}">
+            <div class="background-media-text__text" style="color:{{block.settings.color_text}}">
               {%- if block.settings.subtitle -%}
                 <p class="h5">{{ block.settings.subtitle }}</p>
               {%- endif -%}
@@ -84,8 +82,6 @@
                 </a>
               {%- endif -%}
             </div>
-          </div>
-        </div>
       </div>
     </div>
   {%- endif -%}

@@ -29,6 +29,10 @@
       else
         assign collection_image = collection.products.first.featured_media.preview_image
       endif
+
+      if block.settings.image
+        assign collection_image = block.settings.image
+      endif
     -%}
 
     {%- if collection.empty? -%}

@@ -64,11 +64,21 @@
     {%- endif -%}
   </div>
   {%- if section.settings.subtitle != blank or section.settings.title != blank or section.settings.text != blank -%}
-    <div class="background-media-text__inner">
-      <div class="background-media-text__aligner background-media-text--{{ section.settings.layout }}">
-        <div class="animation-cropper">
-          <div class="animation-contents">
-            <div class="background-media-text__text{% if section.settings.framed %} background-media-text__text--framed{% endif %}">
+
+  {%- style -%}
+    .background-media-text__text .h3 {
+      font-size: {{ section.settings.title_size | times: 0.5 }}px;
+    }
+    @media only screen and (min-width: 769px) {
+      .background-media-text__text .h3 {
+        font-size: {{ section.settings.title_size }}px;
+      }
+    }
+  {%- endstyle -%}
+
+    <div class="background-media-text__inner page-width">
+      <div class="background-media-text__aligner {{ section.settings.text_align }}">
+            <div class="background-media-text__text{% if section.settings.framed %} background-media-text__text--framed{% endif %}" style="color:{{section.settings.color_text}}">
               {%- if section.settings.subtitle -%}
                 <p class="h5">{{ section.settings.subtitle }}</p>
               {%- endif -%}
@@ -84,8 +94,6 @@
                 </a>
               {%- endif -%}
             </div>
-          </div>
-        </div>
       </div>
     </div>
   {%- endif -%}
@@ -109,6 +117,15 @@
         "id": "title",
         "label": "Heading",
         "default": "Large image with text box"
+      },
+      {
+        "type": "range",
+        "id": "title_size",
+        "label": "Heading text size",
+        "default": 80,
+        "min": 40,
+        "max": 100,
+        "unit": "px"
       },
       {
         "type": "richtext",
@@ -184,18 +201,41 @@
         "default": "#f4f4f4"
       },
       {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text color",
+        "info": "Used for desktop text color",
+        "default": "#1c1d1d"
+      },
+      {
         "type": "select",
-        "id": "layout",
-        "label": "Layout",
-        "default": "left",
+        "id": "text_align",
+        "label": "Text alignment",
+        "default": "vertical-center horizontal-center",
         "options": [
           {
-            "value": "left",
-            "label": "Text on left"
+            "value": "vertical-center horizontal-left",
+            "label": "Center left"
           },
           {
-            "value": "right",
-            "label": "Text on right"
+            "value": "vertical-center horizontal-center",
+            "label": "Center"
+          },
+          {
+            "value": "vertical-center horizontal-right",
+            "label": "Center right"
+          },
+          {
+            "value": "vertical-bottom horizontal-left",
+            "label": "Bottom left"
+          },
+          {
+            "value": "vertical-bottom horizontal-center",
+            "label": "Bottom center"
+          },
+          {
+            "value": "vertical-bottom horizontal-right",
+            "label": "Bottom right"
           }
         ]
       },

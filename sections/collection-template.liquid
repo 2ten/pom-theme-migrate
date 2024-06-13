@@ -60,6 +60,13 @@
     <p class="medium-up--hide text-center" data-scroll-to>{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</p>
   {%- endif -%}
 
+{% comment %}
+  <p>
+    <a href="#" data-color-switch="white" class="collection__color-switch">White</a> 
+    <a href="#" data-color-switch="black" class="collection__color-switch">Black</a> 
+    <a href="#" data-color-switch="grey" class="collection__color-switch">Grey</a></p>
+{% endcomment %}
+
   <div
     class="grid grid--uniform grid--collection{% if section.settings.mobile_flush_grid %} small--grid--flush{% endif %}"{% unless section.settings.enable_collection_count %} data-scroll-to{% endunless %}>
     {%- liquid

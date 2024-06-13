@@ -52,6 +52,10 @@
     data-enable-history-state="true"
   {% endunless %}>
 
+  {%-comment-%}
+{ % include 'product-schema' %} 
+  {%-endcomment-%}
+  
   {%- render 'product-template-variables', product: product, current_variant: current_variant -%}
 
   <div class="page-content page-content--product">
@@ -78,6 +82,9 @@
         <div class="grid__item {{ product_description_width }}">
 
           <div class="product-single__meta">
+
+            <div class="product-single__meta-inner">
+
             {%- if settings.show_breadcrumbs and isModal != true -%}
               {%- render 'breadcrumbs' -%}
             {%- endif -%}
@@ -286,6 +293,8 @@
                 </div>
               </div>
             {%- endif -%}
+
+          </div> <!-- close product-single__meta-inner -->
 
             {%- unless description_style == 'full' -%}
               <div class="product-single__description rte">

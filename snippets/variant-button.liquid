@@ -1,4 +1,11 @@
-{%- assign swatch_file_extension = 'png' -%}
+{%- assign swatch_file_extension = 'jpg' -%}
+<label class="variant__label">Body Color</label>
+<ul class="group-select">
+  <li class="group-select--item"><a href="#" class="group-select--swatch color-swatch" data-group-select="black"><span>Black</span></a></li>
+  <li class="group-select--item"><a href="#" class="group-select--swatch color-swatch" data-group-select="white"><span>White</span></a></li>
+  <li class="group-select--item"><a href="#" class="group-select--swatch color-swatch" data-group-select="grey"><span>Grey</span></a></li>
+</ul>
+
 
 <div class="variant-wrapper variant-wrapper--{{ settings.variant_type }} js">
   <label class="variant__label{% if option.name == 'Default' or option.name == 'Title' %} hidden-label{% endif %}{% unless settings.variant_labels_enable %} hidden-label{% endunless %}"
@@ -30,9 +37,10 @@
         endif
       -%}
       <div
-        class="variant-input"
+        class="variant-input variant-group--{{ value | split: ' x ' | first | handleize }} variant-group--item"
         data-index="option{{ option_index }}"
-        data-value="{{ value | escape }}">
+        data-value="{{ value | escape }}"
+        data-group="{{ value | split: ' x ' | first | handleize }}">
         <input type="radio"
           {% if option.selected_value == value %} checked="checked"{% endif %}
           value="{{ value | escape }}"
@@ -44,7 +52,7 @@
           id="ProductSelect-{{ section_id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}">
         {%- if is_color -%}
           {%- liquid
-            assign color_image = value | handle | append: '.' | append: swatch_file_extension | asset_img_url: '50x' | prepend: 'https:' | split: '?' | first
+            assign color_image = value | handle | append: '.' | append: swatch_file_extension | file_img_url: '50x' | prepend: 'https:' | split: '?' | first
             assign color_swatch_fallback = value | split: ' ' | last | handle
           -%}
           <label

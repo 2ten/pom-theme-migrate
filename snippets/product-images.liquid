@@ -75,7 +75,7 @@
               {%endif%}>
               <div class="image-wrap" style="height: 0; padding-bottom: {{ 100 | divided_by: media.preview_image.aspect_ratio }}%;">
                 <a
-                  href="{{ media.preview_image | img_url: product_zoom_size }}"
+                  data-href="{{ media.preview_image | img_url: product_zoom_size }}"
                   class="product__thumb product__thumb-{{ section_id }}"
                   data-index="{{ forloop.index0 }}"
                   data-id="{{ media.id }}">

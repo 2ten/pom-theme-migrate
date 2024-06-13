@@ -1,0 +1,93 @@
+<div id="upsell_drawer_products">
+	{% if settings.upsell_drawer_heading != "" %}
+	<div class="upsell__drawer-message h4">
+		{{ settings.upsell_drawer_heading }}
+	</div>
+	{% endif %}
+	
+	{% assign upsell_products = "" %}
+	
+	{% if settings.upsell_drawer_product1 != "" %}
+		{% if upsell_products != "" %}
+			{% assign upsell_products = upsell_products | append: ", " %}
+		{% endif %}
+		{% assign upsell_products = upsell_products | append: settings.upsell_drawer_product1 %}
+	{% endif %}			
+	{% if settings.upsell_drawer_product2 != "" %}
+		{% if upsell_products != "" %}
+			{% assign upsell_products = upsell_products | append: ", " %}
+		{% endif %}
+		{% assign upsell_products = upsell_products | append: settings.upsell_drawer_product2 %}
+	{% endif %}			
+	{% if settings.upsell_drawer_product3 != "" %}
+		{% if upsell_products != "" %}
+			{% assign upsell_products = upsell_products | append: ", " %}
+		{% endif %}
+		{% assign upsell_products = upsell_products | append: settings.upsell_drawer_product3 %}
+	{% endif %}
+	
+	{% assign up_products = upsell_products | split: ", " %}
+	{% for handle in up_products %}
+		{% assign up_product = all_products[handle] %}
+		{% assign titleSetting = "upsell_drawer_product" | append: forloop.index | append: "_title" %}
+		{% assign productTitleOverride = settings[titleSetting] %}
+		{% comment %}string => integer fix {% endcomment %}
+		{% assign current_variant = [] %}
+		{% comment %}{% assign productLink = "/products/" | append: handle | append: "?variant=" | append: variantId %}{% endcomment %}
+		{% assign productLink = "/products/" | append: handle %}
+		{% assign productTitle = up_product.title %}
+		{% if productTitleOverride != blank  %}
+			{% assign productTitle = productTitleOverride %}
+		{% endif %}
+      	{% assign up_img_url = up_product.featured_image | img_url: '120x' %}
+
+		{% for up_variant in up_product.variants %}
+			{% comment %}{% if variantId == up_variant.id %}{% endif %}{% endcomment %}
+				{% assign variantImage = up_variant | img_url: '1200x' %}
+				{% assign up_current_variant = up_variant %}
+				{% assign variantId = up_variant.id %}
+		{% endfor %}
+		<div class="ajaxcart__product">
+		  <div class="ajaxcart__row">
+			<div class="grid">
+			  <div class="ajaxcart__product-image grid__item one-third">
+				  <a href="{{ productLink }}"><img alt="{{ productTitle }}" src="{{ up_img_url }}"></a>
+			  </div>
+			  <div class="grid__item two-thirds">
+			  	<div class="ajaxcart__product-name--wrapper">
+					<a href="{{ productLink }}" class="ajaxcart__product-name">{{ productTitle }}</a>
+			  	</div>
+				<div class="grid grid--full display-table">
+	              <div class="grid__item display-table-cell one-half">
+				  	<div class="ajaxcart__product-btn">
+						<button class="btn js-add-item" data-variant-id="{{ variantId }}">Add</button>
+				  	</div>
+	              </div>
+	              <div class="grid__item display-table-cell one-half text-right">
+					<div class="ajaxcart__price-wrapper">
+					{%- assign hide_sale_price = true -%}
+					  {% if up_product.compare_at_price_max > up_product.price %}
+						{% if up_current_variant.compare_at_price > up_current_variant.price %}
+						  {%- assign hide_sale_price = false -%}
+						{% endif %}
+						<span class="ajaxcart__price--strikethrough">
+							{% if up_current_variant.compare_at_price > up_current_variant.price %}
+							  {{ up_current_variant.compare_at_price | money }}
+							{% endif %}
+						</span>
+					  {% endif %} 
+
+					  <span class="ajaxcart__price{% if up_current_variant.compare_at_price > up_current_variant.price %} on-sale{% endif %}"
+						itemprop="price"
+						content="{{ up_current_variant.price | divided_by: 100.00 }}">
+						{{ up_current_variant.price | money }}
+					  </span>
+					</div>
+	              </div>
+            	</div>
+			  </div>
+			</div>
+		  </div>
+		</div>				
+	{% endfor %}	
+</div>

@@ -9,9 +9,11 @@
   {%- if template == 'password' -%}
     {{ shop.name }}
   {%- else -%}
+{%- comment -%}
     {%- unless page_title contains shop.name -%}
       &ndash; {{ shop.name }}
     {%- endunless -%}
+{%- endcomment -%}
   {%- endif -%}
 {%- endcapture -%}
-<title>{{ seo_title }}</title>
+<title>{{ seo_title }} - POM Industries</title>

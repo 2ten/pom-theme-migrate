@@ -17,7 +17,13 @@
         endif
       -%}
 
-      {%- if settings.variant_type == 'button' -%}
+      {% comment %} add condition to show buttons if default template {% endcomment %}
+      {%- if settings.variant_type == 'button' or product.template_suffix == blank  -%}
+        <style>
+        .product__quantity--dropdown {
+          display: block!important;
+        }
+        </style>
         {%- render 'variant-button',
           section_id: section_id,
           option: option,

@@ -2,7 +2,7 @@
 {% raw %}
   <div class="drawer__scrollable">
     {{#items}}
-    <div class="ajaxcart__product appear-animation appear-delay-{{animationRow}}">
+    <div class="ajaxcart__product">
       <div class="ajaxcart__row">
         <div class="grid">
           <div class="grid__item one-third">
@@ -90,14 +90,20 @@
     </div>
     {{/items}}
 
+  {% endraw %}
+  {% if settings.upsell_drawer_enabled %}
+    {% render 'upsell-drawer' %}
+  {% endif %}
+  {% raw %}
+
     {% endraw %}{% if settings.cart_notes_enable %}{% raw %}
-      <div class="appear-animation appear-delay-{{lastAnimationRow}}">
+      <div>
         <label for="CartSpecialInstructions" class="ajaxcart__note">{% endraw %}{{ 'cart.general.note' | t }}{% raw %}</label>
         <textarea name="note" class="input-full cart-notes" id="CartSpecialInstructions">{{note}}</textarea>
       </div>
     {% endraw %}{% endif %}{% raw %}
   </div>
-  <div class="drawer__footer appear-animation appear-delay-{{lastAnimationRow}}">
+  <div class="drawer__footer">
     {{#if cartDiscounts }}
       <div class="grid grid--full">
         <div class="grid__item one-half">

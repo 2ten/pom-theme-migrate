@@ -226,16 +226,16 @@
                         {%- unless block.settings.top_subheading == blank -%}
                           <div class="hero__top-subtitle">
                             <div class="animation-cropper"><div class="animation-contents">
-                              {{ block.settings.top_subheading | escape }}
+                              {{ block.settings.top_subheading | escape  }}
                             </div></div>
                           </div>
                         {%- endunless -%}
                         {%- unless block.settings.title == blank -%}
-                          <h2 class="h1 hero__title">
+                          <h1 class=" h1 hero__title">
                             <div class="animation-cropper"><div class="animation-contents">
-                            {{ block.settings.title | newline_to_br }}
+                            {{ block.settings.title | newline_to_br  }}
                             </div></div>
-                          </h2>
+                          </h1>
                         {%- endunless -%}
                         {%- if block.settings.subheading or block.settings.link or block.settings.link_2 -%}
                           {%- unless block.settings.subheading == blank -%}
